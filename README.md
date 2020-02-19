@@ -32,6 +32,7 @@ https://pan.baidu.com/api/shorturlinfo?shorturl=1i7hew8NKHVu9Jt5OJjt0iQ&web=5&ap
 
 ### 网盘密码验证
 https://pan.baidu.com/share/verify?surl=i7hew8NKHVu9Jt5OJjt0iQ&web=5&app_id=250528&channel=chunlei&clienttype=5
+
 pwd=kb5m&vcode=&vcode_str=
 > 返回一个cookie BDCLND
 
