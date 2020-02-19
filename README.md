@@ -19,10 +19,11 @@
 
 
 
-## 分析
+## 百度网盘分享分析
 https://pan.baidu.com/s/15xRVvtl2UOVw6oJmVuhHtQ
-//直接访问
-//如果返回 cookie包含 BDCLND 说明无需密码
+> 直接访问
+
+> 如果返回 cookie包含 BDCLND 说明无需密码
 
 https://pan.baidu.com/s/1I27ypr_bXpLJWvciQq2n1g
 
@@ -32,11 +33,11 @@ https://pan.baidu.com/api/shorturlinfo?shorturl=1i7hew8NKHVu9Jt5OJjt0iQ&web=5&ap
 ### 网盘密码验证
 https://pan.baidu.com/share/verify?surl=i7hew8NKHVu9Jt5OJjt0iQ&web=5&app_id=250528&channel=chunlei&clienttype=5
 pwd=kb5m&vcode=&vcode_str=
-返回一个cookie BDCLND
+> 返回一个cookie BDCLND
 
 ### 检测文件状态
 https://pan.baidu.com/share/linkstatus?web=5&app_id=250528&channel=chunlei&clienttype=5&shorturl=8vBolBFEPuRu0IB2IkG2LQ
-status 0 正常，6取消分享
+> status 0 正常，6取消分享
 
 ### 获取根目录列表
 https://pan.baidu.com/share/list?&web=5&app_id=250528&channel=chunlei&clienttype=5&desc=1&showempty=0&page=1&num=20&order=time&shorturl=8vBolBFEPuRu0IB2IkG2LQ&root=1
