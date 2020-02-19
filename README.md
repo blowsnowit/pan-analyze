@@ -20,7 +20,7 @@
 
 
 ## 百度网盘分享分析
-https://pan.baidu.com/s/15xRVvtl2UOVw6oJmVuhHtQ
+https://pan.baidu.com/s/i7hew8NKHVu9Jt5OJjt0iQ
 > 直接访问
 
 > 如果返回 cookie包含 BDCLND 说明无需密码
@@ -41,7 +41,7 @@ https://pan.baidu.com/share/linkstatus?web=5&app_id=250528&channel=chunlei&clien
 > status 0 正常，6取消分享
 
 ### 获取根目录列表
-https://pan.baidu.com/share/list?&web=5&app_id=250528&channel=chunlei&clienttype=5&desc=1&showempty=0&page=1&num=20&order=time&shorturl=8vBolBFEPuRu0IB2IkG2LQ&root=1
+https://pan.baidu.com/share/list?&web=5&app_id=250528&channel=chunlei&clienttype=5&desc=1&showempty=0&page=1&num=20&order=time&shorturl=i7hew8NKHVu9Jt5OJjt0iQ&root=1
 
 ### 获取子目录列表
 https://pan.baidu.com/share/list?&web=5&app_id=250528&channel=chunlei&clienttype=5&desc=1&showempty=0&page=1&num=20&order=time&shorturl=i7hew8NKHVu9Jt5OJjt0iQ&dir=%2F%E8%B5%84%E6%96%99
