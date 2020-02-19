@@ -1,0 +1,22 @@
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  messages:
+    encoding: UTF-8
+  profiles:
+    active: dev
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+    static-path-pattern: /static/**
+
+server:
+  servlet:
+    jsp:
+      init-parameters:
+        development: true
+
