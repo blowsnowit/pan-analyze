@@ -27,9 +27,9 @@ import cn.hutool.json.JSONUtil;
  */
 @Controller
 public class IndexController {
-    Map<String, List<PanTree>> workMap = new HashMap<>();
+    private Map<String, List<PanTree>> workMap = new HashMap<>();
 
-    AtomicInteger num = new AtomicInteger(0);
+    private AtomicInteger count = new AtomicInteger(0);
 
     @RequestMapping({"index",""})
     public String index(){
@@ -59,7 +59,7 @@ public class IndexController {
 
         workMap.put(key,tree);
 
-        num.decrementAndGet();
+        count.decrementAndGet();
     }
 
     //TODO 考虑限制同ip提交次数/频率
@@ -90,7 +90,7 @@ public class IndexController {
         IndexController bean = SpringUtil.getBean(IndexController.class);
         bean.doTree(key,url,baiduPan.getCookies());
 
-        map.put("num",num.getAndIncrement());
+        map.put("num",count.getAndIncrement());
         map.put("code",1);
         map.put("key",key);
         return map;
