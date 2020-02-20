@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.bload.share.exception.MyRuntimeException;
 import cn.bload.share.model.PanTree;
@@ -28,7 +29,7 @@ import cn.hutool.json.JSONUtil;
 public class IndexController {
     Map<String, List<PanTree>> workMap = new HashMap<>();
 
-    int num = 0;
+    AtomicInteger num = new AtomicInteger(0);
 
     @RequestMapping({"index",""})
     public String index(){
@@ -58,7 +59,7 @@ public class IndexController {
 
         workMap.put(key,tree);
 
-        num--;
+        num.decrementAndGet();
     }
 
     //TODO 考虑限制同ip提交次数/频率
@@ -89,7 +90,7 @@ public class IndexController {
         IndexController bean = SpringUtil.getBean(IndexController.class);
         bean.doTree(key,url,baiduPan.getCookies());
 
-        map.put("num",num ++);
+        map.put("num",num.getAndIncrement());
         map.put("code",1);
         map.put("key",key);
         return map;
