@@ -41,12 +41,12 @@
     <form method="post" action="/tree" @submit="doSubmit" class="search-wraper" role="search">
         <div class="form-group">
             <input name="url" class="form-control search clearable" placeholder="百度网盘分享地址"
-                   value="<%=request.getParameter("url") != null ? request.getParameter("url"):""%>"
+                   value="<%=request.getParameter("url") != null ? request.getParameter("url"):"https://pan.baidu.com/s/1ktAZYUXpTyomufbMct23pw"%>"
                    autocomplete="off" autofocus="" tabindex="0" autocorrect="off" autocapitalize="off" spellcheck="false">
         </div>
         <div class="form-group">
             <input name="password" class="form-control search clearable" placeholder="百度网盘分享密码"
-                   value="<%=request.getParameter("password") != null ? request.getParameter("password"):""%>"
+                   value="<%=request.getParameter("password") != null ? request.getParameter("password"):"zwi7"%>"
                    autocomplete="off" autofocus="" tabindex="0" autocorrect="off" autocapitalize="off" spellcheck="false">
         </div>
         <div class="form-group">

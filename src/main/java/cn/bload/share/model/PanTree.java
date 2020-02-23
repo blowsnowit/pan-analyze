@@ -1,5 +1,6 @@
 package cn.bload.share.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import cn.hutool.json.JSONObject;
@@ -12,7 +13,7 @@ import lombok.Data;
  * @describe 类描述:
  */
 @Data
-public class PanTree{
+public class PanTree implements Serializable {
     private String name;
     private String size;
     private String md5;
@@ -24,6 +25,9 @@ public class PanTree{
     private String serverMtime;
 
     private List<PanTree> childrens;
+
+    public PanTree() {
+    }
 
     public PanTree(JSONObject o) {
         this.setName(o.get("server_filename").toString());
