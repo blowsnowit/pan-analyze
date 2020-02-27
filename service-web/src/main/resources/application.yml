@@ -1,0 +1,37 @@
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  messages:
+    encoding: UTF-8
+  profiles:
+    active: dev
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+    static-path-pattern: /static/**
+  redis:
+    host: localhost
+    port: 6379
+    database: 1
+  cache:
+    type: redis
+  #配置rabbitMq 服务器
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: blowsnow
+    password: 123456
+    virtual-host: /
+  application:
+    name: service-web
+
+server:
+  servlet:
+    jsp:
+      init-parameters:
+        development: true
+

@@ -1,0 +1,18 @@
+
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    database: 1
+  #配置rabbitMq 服务器
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: blowsnow
+    password: 123456
+    virtual-host: /
+  application:
+    name: service-work
+
+server:
+  port: 8001
