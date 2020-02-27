@@ -2,6 +2,7 @@ package cn.bload.share.receive;
 
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import cn.bload.share.model.PanTree;
 import cn.bload.share.model.WorkMessage;
 import cn.bload.share.utils.BaiduPan;
 import cn.bload.share.utils.RedisOperator;
+import cn.bload.share.utils.SpringUtil;
 
 /**
  * @author 作者 : blownsow
@@ -29,6 +31,12 @@ public class WorkReceive {
     @RabbitListener(queues = Const.QUEUE_WORK)
     @RabbitHandler
     public void process(WorkMessage workMessage) {
+        WorkReceive bean = SpringUtil.getBean(WorkReceive.class);
+        bean.work(workMessage);
+    }
+
+    @Async("taskExecutor")
+    public void work(WorkMessage workMessage){
         System.out.println("开始处理：" + workMessage.getUrl());
 
         List<PanTree> tree = null;

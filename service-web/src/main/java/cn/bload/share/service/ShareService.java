@@ -12,8 +12,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
 
-import cn.bload.share.annotation.Cache;
-import cn.bload.share.annotation.Limit;
 import cn.bload.share.constant.Const;
 import cn.bload.share.exception.MyRuntimeException;
 import cn.bload.share.model.PanTree;
@@ -68,8 +66,8 @@ public class ShareService {
         return redisOperator.exists(Const.CACHE_URL_RESULT  + key);
     }
 
-    @Cache(key = "'" + Const.CACHE_URL + "'" + "+ #url",expire = Const.CACHE_URL_EXPIRE)
-    @Limit(key = Const.CACHE_QUERY_LIMIT,period = Const.CACHE_QUERY_LIMIT_PERIOD,count = Const.CACHE_QUERY_LIMIT_COUNT)
+//    @Cache(key = "'" + Const.CACHE_URL + "'" + "+ #url",expire = Const.CACHE_URL_EXPIRE)
+//    @Limit(key = Const.CACHE_QUERY_LIMIT,period = Const.CACHE_QUERY_LIMIT_PERIOD,count = Const.CACHE_QUERY_LIMIT_COUNT)
     public String add(String url, String password) {
         BaiduPan baiduPan = null;
         try {
