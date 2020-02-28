@@ -1,6 +1,9 @@
 package cn.bload.share.model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import cn.hutool.json.JSONObject;
@@ -18,11 +21,11 @@ public class PanTree implements Serializable {
     private String size;
     private String md5;
 
-    private String localCtime;
-    private String localMtime;
+    //创建时间
+    private String ctime;
+    //修改时间
+    private String mtime;
 
-    private String serverCtime;
-    private String serverMtime;
 
     private List<PanTree> childrens;
 
@@ -35,9 +38,27 @@ public class PanTree implements Serializable {
         if (o.get("md5") != null){
             this.setMd5(o.get("md5").toString());
         }
-        this.setLocalCtime(o.get("local_ctime").toString());
-        this.setLocalMtime(o.get("local_mtime").toString());
-        this.setServerCtime(o.get("server_ctime").toString());
-        this.setServerMtime(o.get("server_mtime").toString());
+        this.setCtime(o.get("server_ctime").toString());
+        this.setMtime(o.get("server_mtime").toString());
+    }
+
+    private String doParseTimeStamp(String time){
+        SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = format.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int timeStamp = (int)(date.getTime() / 1000);
+        return "" + timeStamp;
+    }
+    public void setCtimeTimeStamp(String time){
+        this.setCtime(doParseTimeStamp(time));
+    }
+
+
+    public void setMtimeTimeStamp(String time){
+        this.setMtime(doParseTimeStamp(time));
     }
 }

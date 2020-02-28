@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import cn.bload.share.model.PanTree;
 import cn.bload.share.service.ShareService;
-import cn.bload.share.utils.BaiduPan;
+import cn.bload.share.utils.PanUtil;
 import cn.hutool.json.JSONUtil;
 
 /**
@@ -36,11 +38,10 @@ public class IndexController {
             model.addAttribute("tip","解析的链接不存在/未完成");
             return "index";
         }
-        BaiduPan baiduPan = new BaiduPan(null, null);
-        baiduPan.setTrees(shareService.getKey(key));
 
-        model.addAttribute("treeStr",baiduPan.getTreeStr());
-        model.addAttribute("treeJson", JSONUtil.toJsonStr(baiduPan.getTree()));
+        List<PanTree> tree = shareService.getKey(key);
+        model.addAttribute("treeStr", PanUtil.getTreeStr(tree));
+        model.addAttribute("treeJson", JSONUtil.toJsonStr(tree));
 
         return "tree";
     }

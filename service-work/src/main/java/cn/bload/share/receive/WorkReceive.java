@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import cn.bload.share.constant.Const;
 import cn.bload.share.model.PanTree;
 import cn.bload.share.model.WorkMessage;
-import cn.bload.share.utils.BaiduPan;
+import cn.bload.share.pan.AbstractPan;
 import cn.bload.share.utils.RedisOperator;
 import cn.bload.share.utils.SpringUtil;
 
@@ -30,27 +30,26 @@ public class WorkReceive {
 
     @RabbitListener(queues = Const.QUEUE_WORK)
     @RabbitHandler
-    public void process(WorkMessage workMessage) {
+    public void process(WorkMessage message) {
         WorkReceive bean = SpringUtil.getBean(WorkReceive.class);
-        bean.work(workMessage);
+        bean.work(message);
     }
 
     @Async("taskExecutor")
-    public void work(WorkMessage workMessage){
-        System.out.println("开始处理：" + workMessage.getUrl());
+    public void work(WorkMessage message){
+        System.out.println("开始处理：" + message.getUrl());
+
+        String key = message.getKey();
 
         List<PanTree> tree = null;
-
-        String key = workMessage.getKey();
+        AbstractPan pan = AbstractPan.getPan(message);
         try {
-            BaiduPan baiduPan = new BaiduPan(workMessage.getUrl(), workMessage.getPassword());
-            baiduPan.setCookies(workMessage.getCookies());
-            tree = baiduPan.getTree();
+            tree = pan.getTree();
         }catch (Exception e){
             //添加错误任务提示
             redisOperator.set(Const.CACHE_URL_RESULT_ERR + key,"查询失败",5 * 60L);
             //移除任务key
-            redisOperator.remove(Const.CACHE_URL + workMessage.getUrl());
+            redisOperator.remove(Const.CACHE_URL + pan.getUrl());
             e.printStackTrace();
             return;
         }

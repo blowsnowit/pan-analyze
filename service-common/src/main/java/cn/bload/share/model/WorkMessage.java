@@ -1,6 +1,8 @@
 package cn.bload.share.model;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 import lombok.Data;
 
@@ -19,7 +21,8 @@ public class WorkMessage implements Serializable {
 
     private String password;
 
-    private String cookies;
+    private List<String> cookies;
 
+    private Map<String,Object> params;
 
 }

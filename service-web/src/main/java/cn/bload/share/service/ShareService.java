@@ -2,10 +2,8 @@ package cn.bload.share.service;
 
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import java.net.HttpCookie;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,7 +14,8 @@ import cn.bload.share.constant.Const;
 import cn.bload.share.exception.MyRuntimeException;
 import cn.bload.share.model.PanTree;
 import cn.bload.share.model.WorkMessage;
-import cn.bload.share.utils.BaiduPan;
+import cn.bload.share.pan.AbstractPan;
+import cn.bload.share.pan.PanFactory;
 import cn.bload.share.utils.RedisOperator;
 
 /**
@@ -37,18 +36,18 @@ public class ShareService {
     public int getCount(){
         return Integer.valueOf(redisOperator.get(Const.CACHE_WORK_NUM).toString());
     }
-
-    @Async("taskExecutor")
-    public void doTree(String key, String url, List<HttpCookie> cookies) {
-        BaiduPan baiduPan = new BaiduPan(url, null);
-        baiduPan.setCookies(cookies);
-        List<PanTree> tree = baiduPan.getTree();
-
-        redisOperator.set(Const.CACHE_URL_RESULT + key,tree,Const.CACHE_URL_EXPIRE);
-
-        //执行完毕数量减少
-        count.decrementAndGet();
-    }
+//
+//    @Async("taskExecutor")
+//    public void doTree(String key, String url, List<HttpCookie> cookies) {
+//        BaiduPan baiduPan = new BaiduPan(url, null);
+//        baiduPan.setCookies(cookies);
+//        List<PanTree> tree = baiduPan.getTree();
+//
+//        redisOperator.set(Const.CACHE_URL_RESULT + key,tree,Const.CACHE_URL_EXPIRE);
+//
+//        //执行完毕数量减少
+//        count.decrementAndGet();
+//    }
 
 
     public List<PanTree> getKey(String key) {
@@ -69,10 +68,9 @@ public class ShareService {
 //    @Cache(key = "'" + Const.CACHE_URL + "'" + "+ #url",expire = Const.CACHE_URL_EXPIRE)
 //    @Limit(key = Const.CACHE_QUERY_LIMIT,period = Const.CACHE_QUERY_LIMIT_PERIOD,count = Const.CACHE_QUERY_LIMIT_COUNT)
     public String add(String url, String password) {
-        BaiduPan baiduPan = null;
+        AbstractPan pan = PanFactory.getPan(url, password);
         try {
-            baiduPan = new BaiduPan(url, password);
-            if (!baiduPan.init()){
+            if (!pan.init()){
                 throw new MyRuntimeException("解析链接失败");
             }
         }catch (MyRuntimeException e){
@@ -86,16 +84,11 @@ public class ShareService {
         //随机生成key，用于排队等待
         String key = UUID.randomUUID().toString();
 
-
-        WorkMessage workMessage = new WorkMessage();
-        workMessage.setKey(key);
-        workMessage.setUrl(url);
-        workMessage.setPassword(password);
-        workMessage.setCookies(baiduPan.getCookiesStr());
+        WorkMessage workMessage = pan.getWorkMessage(key);
 
         //投递任务
         // 消息唯一ID
-        CorrelationData correlationData = new CorrelationData(workMessage.getKey());
+        CorrelationData correlationData = new CorrelationData(key);
         rabbitTemplate.convertAndSend("",Const.QUEUE_WORK,workMessage,correlationData);
 
         return key;
