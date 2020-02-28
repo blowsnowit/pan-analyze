@@ -110,8 +110,9 @@ public class BaiduPan extends AbstractPan{
 
             PanTree panTree = new PanTree(o);
 
-            String isdir = o.get("isdir").toString();
-            if ("1".equals(isdir)){
+            boolean isdir = o.get("isdir").toString().equals("1");
+            panTree.setIsdir(isdir);
+            if (isdir){
                 panTree.setChildrens(this.getSonTree(path + "/" + panTree.getName()));
             }
             tree.add(panTree);

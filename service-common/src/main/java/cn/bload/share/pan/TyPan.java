@@ -90,7 +90,9 @@ public class TyPan extends AbstractPan{
             panTree.setCtimeTimeStamp(object.getStr("createTime"));
             panTree.setMtimeTimeStamp(object.getStr("lastOpTime"));
 
-            if (object.getBool("isFolder")){
+            Boolean isdir = object.getBool("isFolder");
+            panTree.setIsdir(isdir);
+            if (isdir){
                 panTree.setChildrens(doTree(object.getStr("fileId")));
             }
             panTrees.add(panTree);

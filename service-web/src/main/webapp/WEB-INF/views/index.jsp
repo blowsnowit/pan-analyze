@@ -54,7 +54,7 @@
                    :value="status === 0 ?'查询':'查询中...'">
         </div>
     </form>
-    <div style="text-align: center;">支持：百度云盘，天翼云盘</div>
+    <div style="text-align: center;">支持：百度云盘、天翼云盘、gitee、github解析</div>
     <div style="text-align: center;">注意：最多进行显示3层文件夹，后续的不进行查询</div>
     <div style="text-align: center;">注意：使用队列查询，请耐心等待自动跳转</div>
 </main>

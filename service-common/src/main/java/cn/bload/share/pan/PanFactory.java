@@ -15,6 +15,9 @@ public class PanFactory {
         if (TyPan.checkPanUrl(url)){
             return new TyPan(url,password);
         }
+        if (GitPan.checkPanUrl(url)){
+            return new GitPan(url,password);
+        }
         return null;
     }
 }

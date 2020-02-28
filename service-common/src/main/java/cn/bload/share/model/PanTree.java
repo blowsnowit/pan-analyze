@@ -26,6 +26,8 @@ public class PanTree implements Serializable {
     //修改时间
     private String mtime;
 
+    //是否是目录
+    private boolean isdir;
 
     private List<PanTree> childrens;
 

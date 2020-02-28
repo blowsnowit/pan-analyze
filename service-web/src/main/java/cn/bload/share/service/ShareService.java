@@ -69,6 +69,9 @@ public class ShareService {
 //    @Limit(key = Const.CACHE_QUERY_LIMIT,period = Const.CACHE_QUERY_LIMIT_PERIOD,count = Const.CACHE_QUERY_LIMIT_COUNT)
     public String add(String url, String password) {
         AbstractPan pan = PanFactory.getPan(url, password);
+        if (pan == null){
+            throw new MyRuntimeException("无法识别此类型链接");
+        }
         try {
             if (!pan.init()){
                 throw new MyRuntimeException("解析链接失败");

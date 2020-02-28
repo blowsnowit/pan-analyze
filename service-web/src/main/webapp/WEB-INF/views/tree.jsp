@@ -27,11 +27,11 @@
     <title>百度网盘分享目录解析</title>
     <style>
         main{
-            margin-top: 50px;
+            /*margin-top: 50px;*/
         }
         textarea{
             width: 100%;
-            height: 300px;
+            height: calc(100vh - 50px);
         }
     </style>
 </head>
