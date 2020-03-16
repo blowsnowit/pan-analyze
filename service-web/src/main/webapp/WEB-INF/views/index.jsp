@@ -51,6 +51,7 @@
         </div>
         <div class="form-group">
             <input style="width: 100%;height: 50px;" type="submit" class="btn btn-default"
+                   :disabled="status === 1"
                    :value="status === 0 ?'查询':'查询中...'">
         </div>
     </form>
@@ -88,7 +89,7 @@
 
         that.status = 1;
         $.post("/add",params,function (response) {
-          that.status = 0;
+
           var key = response.key;
           if (response.code === 1) {
             that.showTip('查询成功,前面还有' + response.num + '个人，请耐心等待...',"success");
@@ -96,9 +97,11 @@
             that.timer = setInterval(function(){
               $.get("/check","key=" + key,function (result) {
                 if (result.code === 1){
+                  that.status = 0;
                   clearInterval(that.timer);
                   location.href = "/tree?key=" + key
                 }else if (result.code === -1){
+                  that.status = 0;
                   that.showTip(result.message);
                   clearInterval(that.timer);
                 }
@@ -107,6 +110,7 @@
           }else if (response.code === 2) {
             location.href = "/tree?key=" + key
           }else{
+            that.status = 0;
             that.showTip(response.message);
           }
         })

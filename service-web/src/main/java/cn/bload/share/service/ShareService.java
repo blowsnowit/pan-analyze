@@ -59,8 +59,11 @@ public class ShareService {
     }
 
     public String checkKeyErr(String key) {
-        if (redisOperator.exists(Const.CACHE_URL_RESULT_ERR  + key)){
-            return redisOperator.get(Const.CACHE_URL_RESULT_ERR  + key).toString();
+        String errKey = Const.CACHE_URL_RESULT_ERR  + key;
+        if (redisOperator.exists(errKey)){
+            String err = redisOperator.get(errKey).toString();
+            redisOperator.remove(errKey);
+            return err;
         }
         return null;
     }

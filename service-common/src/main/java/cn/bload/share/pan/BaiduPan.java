@@ -94,7 +94,7 @@ public class BaiduPan extends AbstractPan{
         }
         String url = null;
         try {
-            url = "https://pan.baidu.com/share/list?&web=5&app_id="
+            url = "https://pan.baidu.com/share/list?web=5&app_id="
                     + APPID
                     + "&channel=chunlei&clienttype=5&desc=1&showempty=0&page=1&num=20&order=time&shorturl="
                     + getShortUrl()
@@ -116,8 +116,10 @@ public class BaiduPan extends AbstractPan{
 
             boolean isdir = o.get("isdir").toString().equals("1");
             panTree.setIsdir(isdir);
+
             if (isdir){
-                panTree.setChildrens(this.getSonTree(path + "/" + panTree.getName(),level + 1));
+                String reallyPath = o.get("path").toString();
+                panTree.setChildrens(this.getSonTree(reallyPath,level + 1));
             }
             tree.add(panTree);
         }

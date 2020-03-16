@@ -74,6 +74,7 @@ public class IndexController {
         if ((err = shareService.checkKeyErr(key)) != null){
             map.put("code",-1);
             map.put("message",err);
+            return map;
         }
         if (shareService.checkKey(key)){
             map.put("code",1);
