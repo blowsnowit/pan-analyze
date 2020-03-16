@@ -52,7 +52,7 @@ public class BaiduPan extends AbstractPan{
 
     @Override
     public List<PanTree> getTree() {
-        return this.getSonTree("");
+        return this.getSonTree("",0);
     }
 
     public static boolean checkPanUrl(String url) {
@@ -86,8 +86,12 @@ public class BaiduPan extends AbstractPan{
 
     //获取子目录列表
     @JsonIgnore
-    private List<PanTree> getSonTree(String path) {
+    private List<PanTree> getSonTree(String path,Integer level) {
         List<PanTree> tree = new ArrayList<>();
+        //防止循环次数过多
+        if (level > MAX_LEVEL){
+            return tree;
+        }
         String url = null;
         try {
             url = "https://pan.baidu.com/share/list?&web=5&app_id="
@@ -113,7 +117,7 @@ public class BaiduPan extends AbstractPan{
             boolean isdir = o.get("isdir").toString().equals("1");
             panTree.setIsdir(isdir);
             if (isdir){
-                panTree.setChildrens(this.getSonTree(path + "/" + panTree.getName()));
+                panTree.setChildrens(this.getSonTree(path + "/" + panTree.getName(),level + 1));
             }
             tree.add(panTree);
         }

@@ -48,15 +48,17 @@ public class WorkReceive {
         }catch (Exception e){
             //添加错误任务提示
             redisOperator.set(Const.CACHE_URL_RESULT_ERR + key,"查询失败",5 * 60L);
-            //移除任务key
+            //移除失败任务key
             redisOperator.remove(Const.CACHE_URL + pan.getUrl());
             e.printStackTrace();
             return;
+        }finally {
+            //执行完毕数量减少
+            redisOperator.decrement(Const.CACHE_WORK_NUM);
         }
 
 
         redisOperator.set(Const.CACHE_URL_RESULT + key,tree,Const.CACHE_URL_EXPIRE);
-        //执行完毕数量减少
-        redisOperator.decrement(Const.CACHE_WORK_NUM);
+
     }
 }

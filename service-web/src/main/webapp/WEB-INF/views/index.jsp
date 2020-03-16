@@ -89,11 +89,10 @@
         that.status = 1;
         $.post("/add",params,function (response) {
           that.status = 0;
-          if (response.code !== 1) {
-            that.showTip(response.message);
-          }else{
+          var key = response.key;
+          if (response.code === 1) {
             that.showTip('查询成功,前面还有' + response.num + '个人，请耐心等待...',"success");
-            var key = response.key;
+            //开始定时器定时查询
             that.timer = setInterval(function(){
               $.get("/check","key=" + key,function (result) {
                 if (result.code === 1){
@@ -105,6 +104,10 @@
                 }
               })
             },1000)
+          }else if (response.code === 2) {
+            location.href = "/tree?key=" + key
+          }else{
+            that.showTip(response.message);
           }
         })
       },

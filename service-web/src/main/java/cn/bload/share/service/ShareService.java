@@ -5,7 +5,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
@@ -19,6 +18,7 @@ import cn.bload.share.model.WorkMessage;
 import cn.bload.share.pan.AbstractPan;
 import cn.bload.share.pan.PanFactory;
 import cn.bload.share.utils.RedisOperator;
+import cn.hutool.crypto.SecureUtil;
 
 /**
  * @author 作者 : blownsow
@@ -36,7 +36,9 @@ public class ShareService {
     private AtomicInteger count = new AtomicInteger(0);
 
     public int getCount(){
-        return Integer.valueOf(redisOperator.get(Const.CACHE_WORK_NUM).toString());
+        Object count = redisOperator.get(Const.CACHE_WORK_NUM);
+        if (count == null) return 0;
+        return Integer.valueOf(count.toString());
     }
 //
 //    @Async("taskExecutor")
@@ -52,7 +54,7 @@ public class ShareService {
 //    }
 
 
-    public List<PanTree> getKey(String key) {
+    public List<PanTree> getTrees(String key) {
         return (List<PanTree>) redisOperator.get(Const.CACHE_URL_RESULT+ key);
     }
 
@@ -66,6 +68,12 @@ public class ShareService {
     public boolean checkKey(String key) {
         return redisOperator.exists(Const.CACHE_URL_RESULT  + key);
     }
+
+    public String getKey(String url) {
+        return SecureUtil.md5(url);
+    }
+
+
 
     @Cache(key = "'" + Const.CACHE_URL + "'" + "+ #url",expire = Const.CACHE_URL_EXPIRE)
     @Limit(key = Const.CACHE_QUERY_LIMIT,period = Const.CACHE_QUERY_LIMIT_PERIOD,count = Const.CACHE_QUERY_LIMIT_COUNT)
@@ -86,8 +94,8 @@ public class ShareService {
 
         redisOperator.increment(Const.CACHE_WORK_NUM);
 
-        //随机生成key，用于排队等待
-        String key = UUID.randomUUID().toString();
+        //生成key，用于排队等待
+        String key = getKey(url);
 
         WorkMessage workMessage = pan.getWorkMessage(key);
 
@@ -98,5 +106,6 @@ public class ShareService {
 
         return key;
     }
+
 
 }

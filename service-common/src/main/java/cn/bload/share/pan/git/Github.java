@@ -10,6 +10,6 @@ public class Github extends AbstractGit {
 
     @Override
     protected String getApi() {
-        return "https://api.github.com/";
+        return "https://api.github.com";
     }
 }

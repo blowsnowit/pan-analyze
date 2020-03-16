@@ -57,10 +57,14 @@ public class TyPan extends AbstractPan{
 
     @Override
     public List<PanTree> getTree() {
-        return doTree("");
+        return getSonTree("",0);
     }
 
-    private List<PanTree> doTree(String fileid){
+    private List<PanTree> getSonTree(String fileid,Integer level){
+        List<PanTree> panTrees = new ArrayList<>();
+        if (level > MAX_LEVEL){
+            return panTrees;
+        }
         String shareId = getParamsStr("shareId");
         String verifyCode = getParamsStr("verifyCode");
         String url = "https://cloud.189.cn/v2/listShareDir.action?fileId="
@@ -81,7 +85,7 @@ public class TyPan extends AbstractPan{
             throw new MyRuntimeException(errorVO.getStr("errorMsg"));
         }
         JSONArray datas = jsonObject.getJSONArray("data");
-        List<PanTree> panTrees = new ArrayList<>();
+
         for (Object data : datas) {
             JSONObject object = (JSONObject)data;
             PanTree panTree = new PanTree();
@@ -93,7 +97,7 @@ public class TyPan extends AbstractPan{
             Boolean isdir = object.getBool("isFolder");
             panTree.setIsdir(isdir);
             if (isdir){
-                panTree.setChildrens(doTree(object.getStr("fileId")));
+                panTree.setChildrens(getSonTree(object.getStr("fileId"),level + 1));
             }
             panTrees.add(panTree);
         }

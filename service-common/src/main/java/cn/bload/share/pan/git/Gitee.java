@@ -9,6 +9,6 @@ package cn.bload.share.pan.git;
 public class Gitee extends AbstractGit {
     @Override
     protected String getApi() {
-        return "https://gitee.com/api/v5/";
+        return "https://gitee.com/api/v5";
     }
 }

@@ -31,8 +31,8 @@ public interface Const {
      * 缓存查询的结果
      * 需要一个key
      */
-    String CACHE_URL_RESULT = "cache_url_result_";
-    String CACHE_URL_RESULT_ERR = "cache_url_result_err_";
+    String CACHE_URL_RESULT = "cache_result_";
+    String CACHE_URL_RESULT_ERR = "cache_result_err_";
 
     String QUEUE_WORK = "panwork";
 }

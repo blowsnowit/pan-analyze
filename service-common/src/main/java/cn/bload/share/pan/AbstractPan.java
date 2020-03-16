@@ -19,6 +19,9 @@ import lombok.Data;
 @Data
 public abstract class AbstractPan{
 
+    //最大深度
+    protected final Integer MAX_LEVEL = 3;
+
     protected String url;
 
     protected String password;
@@ -26,6 +29,7 @@ public abstract class AbstractPan{
     protected List<String> cookies;
 
     protected Map<String,Object> params = new HashMap<>();
+
 
 
     public AbstractPan(String url, String password){

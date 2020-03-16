@@ -39,7 +39,7 @@ public class IndexController {
             return "index";
         }
 
-        List<PanTree> tree = shareService.getKey(key);
+        List<PanTree> tree = shareService.getTrees(key);
         model.addAttribute("treeStr", PanUtil.getTreeStr(tree));
         model.addAttribute("treeJson", JSONUtil.toJsonStr(tree));
 
@@ -50,9 +50,16 @@ public class IndexController {
     @RequestMapping("add")
     @ResponseBody
     public Map add(String url, String password){
+        //检查一下是否存在
+        Map<String,Object> map = new HashMap<>();
+        if (shareService.checkKey(shareService.getKey(url))){
+            map.put("code",2);
+            map.put("key",shareService.getKey(url));
+            return map;
+        }
+
         String key = shareService.add(url, password);
 
-        Map<String,Object> map = new HashMap<>();
         map.put("num",shareService.getCount());
         map.put("code",1);
         map.put("key",key);

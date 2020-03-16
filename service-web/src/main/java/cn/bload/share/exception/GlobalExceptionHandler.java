@@ -19,8 +19,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MyRuntimeException.class)
     @ResponseBody
     public Map exceptionHandler(MyRuntimeException e){
-        e.printStackTrace();
-
         Map<String,Object> map = new HashMap<>();
         map.put("code",0);
         map.put("message",e.getMessage());
