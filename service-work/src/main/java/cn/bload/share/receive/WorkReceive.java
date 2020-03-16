@@ -58,7 +58,7 @@ public class WorkReceive {
         }
 
 
-        redisOperator.set(Const.CACHE_URL_RESULT + key,tree,Const.CACHE_URL_EXPIRE);
+        redisOperator.set(Const.CACHE_URL_RESULT + key,tree);
 
     }
 }

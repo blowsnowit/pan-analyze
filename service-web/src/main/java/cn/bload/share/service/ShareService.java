@@ -62,7 +62,6 @@ public class ShareService {
         String errKey = Const.CACHE_URL_RESULT_ERR  + key;
         if (redisOperator.exists(errKey)){
             String err = redisOperator.get(errKey).toString();
-            redisOperator.remove(errKey);
             return err;
         }
         return null;
@@ -78,7 +77,7 @@ public class ShareService {
 
 
 
-    @Cache(key = "'" + Const.CACHE_URL + "'" + "+ #url",expire = Const.CACHE_URL_EXPIRE)
+    @Cache(key = "'" + Const.CACHE_URL + "'" + "+ #url")
     @Limit(key = Const.CACHE_QUERY_LIMIT,period = Const.CACHE_QUERY_LIMIT_PERIOD,count = Const.CACHE_QUERY_LIMIT_COUNT)
     public String add(String url, String password) {
         AbstractPan pan = PanFactory.getPan(url, password);
